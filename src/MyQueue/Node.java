@@ -6,7 +6,6 @@ public class Node<T> {
     private T value;
 
 
-
     public Node(Node<T> netNode, Node<T> prevNode, T value) {
         this.nextNode = netNode;
         this.prevNode = prevNode;

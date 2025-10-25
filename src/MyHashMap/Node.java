@@ -1,9 +1,9 @@
 package MyHashMap;
 
-public class Entry<K,V> {
+public class Node<K, V> {
     private K key;
     private V value;
-private Entry<K, V> nextEntry;
+    private Node<K, V> nextEntry;
 
     public K getKey() {
         return key;
@@ -21,11 +21,11 @@ private Entry<K, V> nextEntry;
         this.value = value;
     }
 
-    public Entry<K, V> getNextEntry() {
+    public Node<K, V> getNextEntry() {
         return nextEntry;
     }
 
-    public void setNextEntry(Entry<K, V> nextEntry) {
+    public void setNextEntry(Node<K, V> nextEntry) {
         this.nextEntry = nextEntry;
     }
 }

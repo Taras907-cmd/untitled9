@@ -7,7 +7,6 @@ public class MyLinkedList<T> {
     private int size = 0;
 
     public void add(T val) {
-        size++;
         if (firstNode == null) {
             firstNode = new Node<>(null, null, val);
         } else if (lastNode == null) {
@@ -18,34 +17,63 @@ public class MyLinkedList<T> {
             lastNode.setNextNode(nexLastNode);
             lastNode = nexLastNode;
         }
+        size++;
     }
 
     public T get(int index) {
-        Node<T> currentNode = firstNode;
-        for (int i = 0; i < index; i++) {
-            currentNode = currentNode.getNextNode();
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
+
+        Node<T> currentNode;
+        if (index < size / 2) {
+            currentNode = firstNode;
+            for (int i = 0; i < index; i++) {
+                currentNode = currentNode.getNextNode();
+            }
+        } else {
+            currentNode = lastNode;
+            for (int i = size - 1; i > index; i--) {
+                currentNode = currentNode.getPrevNode();
+            }
+        }
+
         return currentNode.getValue();
     }
 
+
     public void remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        Node<T> toDelete;
+
+
+        if (index < size / 2) {
+            toDelete = firstNode;
+            for (int i = 0; i < index; i++) {
+                toDelete = toDelete.getNextNode();
+            }
+        } else {
+            toDelete = lastNode;
+            for (int i = size - 1; i > index; i--) {
+                toDelete = toDelete.getPrevNode();
+            }
+        }
+
+        Node<T> prev = toDelete.getPrevNode();
+        Node<T> next = toDelete.getNextNode();
+
+        if (prev != null) prev.setNextNode(next);
+        else firstNode = next;
+
+        if (next != null) next.setPrevNode(prev);
+        else lastNode = prev;
+
         size--;
-        if (index == 0) {
-            firstNode = firstNode.getNextNode();
-        }
-        Node<T> prevNode = firstNode;
-        for (int i = 0; i < index - 1; i++) {
-            prevNode = prevNode.getNextNode();
-        }
-        Node<T> toDelete = prevNode.getNextNode();
-        if (toDelete == null) {
-            return;
-        }
-        prevNode.setNextNode(toDelete.getNextNode());
-        if (toDelete == lastNode) {
-            lastNode = prevNode;
-        }
     }
+
 
     public int size() {
         return size;
